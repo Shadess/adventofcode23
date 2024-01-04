@@ -20,7 +20,7 @@ enum Mappers {
 	Location = 8,
 }
 
-const transpile = (theSeeds: number[], mapType: Mappers): number[] => {
+const transpile = (theSeeds: number[][], mapType: Mappers): number[][] => {
 	if (mapType === Mappers.Location) return theSeeds;
 
 	let mapper: number[][] = seed2Soil;
@@ -47,47 +47,50 @@ const transpile = (theSeeds: number[], mapType: Mappers): number[] => {
 			mapper = seed2Soil;
 	}
 
-	theSeeds.forEach((fSeed, index) => {
-		let mappedSeed = fSeed;
+	const mappedSeeds: number[][] = [];
+	theSeeds.forEach((fSeed) => {
+		let startSeed = fSeed;
 
-		let mapped = false;
-		let iterator = 0;
-		while (!mapped && iterator < mapper.length) {
-			const destStart = mapper[iterator][0];
-			const srcStart = mapper[iterator][1];
-			const rangeLen = mapper[iterator][2];
+		mapper.every((ranger) => {
+			const differ = ranger[0] - ranger[1];
+			const srcRange = [ranger[1], ranger[1] + ranger[2] - 1];
 
-			if (fSeed >= srcStart && fSeed <= srcStart + rangeLen) {
-				mappedSeed = destStart - srcStart + fSeed;
-				mapped = true;
+			if (startSeed[0] >= srcRange[0] && startSeed[1] <= srcRange[1]) {
+				// entire range is mapped here
+				mappedSeeds.push([startSeed[0] + differ, startSeed[1] + differ]);
+				startSeed = [];
+				return false; // break the loop
+			} else if (startSeed[0] >= srcRange[0] && startSeed[0] <= srcRange[1]) {
+				// beggining of range is mapped
+				mappedSeeds.push([startSeed[0] + differ, srcRange[1] + differ]);
+				startSeed = [srcRange[1] + 1, startSeed[1]];
+			} else if (startSeed[1] <= srcRange[1] && startSeed[1] >= srcRange[0]) {
+				// end of range is mapped
+				mappedSeeds.push([srcRange[0] + differ, startSeed[1] + differ]);
+				startSeed = [startSeed[0], srcRange[0] - 1];
 			}
 
-			iterator++;
-		}
-		theSeeds[index] = mappedSeed;
+			return true; // this keeps the loop running
+		});
+
+		// Push any remaining unmapped values
+		if (startSeed.length > 0) mappedSeeds.push(startSeed);
 	});
 
-	return transpile(theSeeds, mapType + 1);
+	return transpile(mappedSeeds, mapType + 1);
 };
 
 export const runProblem10 = () => {
-	const fullSeeds: number[] = [];
-	for (let i = 4; i < 6; i += 2) {
-		const roundSeeds: number[] = [];
-		for (let j = 0; j < seeds[i + 1]; j++) roundSeeds.push(seeds[i] + j);
-
-		const locs = transpile(roundSeeds, Mappers.Seed);
-
-		const ordered = locs.sort((a, b) => a - b);
-		// console.log(ordered);
-		// console.log('==============');
-		// console.log(ordered[0]);
-		fullSeeds.push(ordered[0]);
+	const startingSeeds: number[][] = [];
+	for (let i = 0; i < seeds.length; i += 2) {
+		startingSeeds.push([seeds[i], seeds[i] + seeds[i + 1] - 1]);
 	}
 
-	// console.log(fullSeeds);
-	const fullOrder = fullSeeds.sort((a, b) => a - b);
-	console.log(fullOrder[0]);
+	const mappedSeeds = transpile(startingSeeds, Mappers.Seed);
+	const lowest = mappedSeeds.reduce((sum, seed) => {
+		return (sum === -1 || seed[0] < sum) && seed[0] != 0 ? seed[0] : sum;
+	}, -1);
+	console.log(lowest);
 };
 
 export default runProblem10;
