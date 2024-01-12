@@ -4,7 +4,7 @@
 	"description": "",
 	"main": "index.ts",
 	"scripts": {
-		"go": "npx ts-node index.ts -d 8 -p 1",
+		"go": "npx ts-node index.ts -d 10 -p 2",
 		"test": "echo \"Error: no test specified\" && exit 1"
 	},
 	"keywords": [],
