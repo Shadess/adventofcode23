@@ -15,6 +15,8 @@ import runProblem15 from './days/08/problem15';
 import runProblem17 from './days/09/problem17';
 import runProblem19 from './days/10/problem19';
 import runProblem20 from './days/10/problem20';
+import runProblem21 from './days/11/problem21';
+import runProblem22 from './days/11/problem22';
 
 if (process.argv.length <= 3) {
 	console.error('Expected a day and problem to run.');
@@ -50,3 +52,5 @@ else if (day === 8 && problem === 1) runProblem15();
 else if (day === 9 && problem === 1) runProblem17();
 else if (day === 10 && problem === 1) runProblem19();
 else if (day === 10 && problem === 2) runProblem20();
+else if (day === 11 && problem === 1) runProblem21();
+else if (day === 11 && problem === 2) runProblem22();
