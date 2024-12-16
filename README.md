@@ -4,5 +4,5 @@ Advent of Code 2023
 
 ## Setup
 
-1. Install `npm i`
-2. Run `yarn go` || `npm run go`
+1. Install `pnpm i`
+2. Run `pnpm go` || `pnpm run go`
