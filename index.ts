@@ -1,7 +1,7 @@
 import runProblem1 from './2024/01/problem1';
 import runProblem2 from './2024/01/problem2';
-// import runProblem3 from './days/02/problem3';
-// import runProblem4 from './days/02/problem4';
+import runProblem3 from './2024/02/problem3';
+import runProblem4 from './2024/02/problem4';
 // import runProblem5 from './days/03/problem5';
 // import runProblem6 from './days/03/problem6';
 // import { runProblem7 } from './days/04/problem7';
@@ -38,8 +38,8 @@ if (problem > 2) console.error('Problem should never be greater than 2.');
 
 if (day === 1 && problem === 1) runProblem1();
 else if (day === 1 && problem === 2) runProblem2();
-// else if (day === 2 && problem === 1) runProblem3();
-// else if (day === 2 && problem === 2) runProblem4();
+else if (day === 2 && problem === 1) runProblem3();
+else if (day === 2 && problem === 2) runProblem4();
 // else if (day === 3 && problem === 1) runProblem5();
 // else if (day === 3 && problem === 2) runProblem6();
 // else if (day === 4 && problem === 1) runProblem7();
